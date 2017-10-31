@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.MulticastSocket;
 import java.net.UnknownHostException;
 
 import android.Manifest;
@@ -28,8 +29,8 @@ public class MainActivity extends Activity {
     private Button startButton,stopButton;
 
     public byte[] buffer;
-    public static DatagramSocket socket;
-    private int port=50005;
+    public static MulticastSocket socket;
+    private int port=6789;
 
     AudioRecord recorder;
 
@@ -134,7 +135,8 @@ public class MainActivity extends Activity {
             public void run() {
                 try {
 
-                    DatagramSocket socket = new DatagramSocket();
+                    //DatagramSocket socket = new DatagramSocket();
+                    socket = new MulticastSocket(port);
                     Log.d("VS", "Socket Created");
 
                     byte[] buffer = new byte[minBufSize];
@@ -142,8 +144,10 @@ public class MainActivity extends Activity {
                     Log.d("VS","Buffer created of size " + minBufSize);
                     DatagramPacket packet;
 
-                    final InetAddress destination = InetAddress.getByName("192.168.1.203");
+                    final InetAddress destination = InetAddress.getByName("228.5.6.7");
                     Log.d("VS", "Address retrieved");
+
+                    socket.joinGroup(destination);
 
 
                     recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*10);
