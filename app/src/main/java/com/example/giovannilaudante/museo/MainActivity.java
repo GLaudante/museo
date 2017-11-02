@@ -148,7 +148,7 @@ public class MainActivity extends Activity {
                     Log.d("VS", "Address retrieved");
 
                     socket.joinGroup(destination);
-
+                    Log.d("VS", "Group joined");
 
                     recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*10);
                     Log.d("VS", "Recorder initialized");
